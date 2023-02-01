@@ -20,7 +20,7 @@ final class SmsReportResponse
     {
         $this->reports = unserialize(
             $data['reports'],
-            ['allowed_classes' => SentSmsReportsIterator::class]
+            ['allowed_classes' => [SentSmsReportsIterator::class]]
         );
     }
 }

@@ -48,7 +48,7 @@ class SmsApiHelper
         );
 
         return unserialize($response->getBody(),
-            ['allowed_classes' => SendSmsResponse::class]);
+            ['allowed_classes' => [SendSmsResponse::class]]);
     }
 
     public function sendAdvancedSms(AdvancedSmsMessage $message): SendSmsResponse
@@ -67,7 +67,7 @@ class SmsApiHelper
         );
 
         return unserialize($response->getBody(),
-            ['allowed_classes'=> SendSmsResponse::class]);
+            ['allowed_classes'=> [SendSmsResponse::class]]);
     }
 
     public function getDeliveryReports(ReportOptions $options): SmsReportResponse
@@ -85,7 +85,7 @@ class SmsApiHelper
         );
 
         return unserialize($response->getBody(),
-            ['allowed_classes' => SmsReportResponse::class]);
+            ['allowed_classes' => [SmsReportResponse::class]]);
     }
 
     public function getMessageLogs(LogOptions $options): SmsLogsResponse
@@ -103,6 +103,6 @@ class SmsApiHelper
         );
 
         return unserialize($response->getBody(),
-            ['allowed_classes' => SmsLogsResponse::class]);
+            ['allowed_classes' => [SmsLogsResponse::class]]);
     }
 }
