@@ -2,6 +2,7 @@
 
 namespace Hollow3464\SmsApiHelper;
 
+use GuzzleHttp\Exception\ClientException;
 use Hollow3464\SmsApiHelper\Sms\Logs\LogOptions;
 use Hollow3464\SmsApiHelper\Sms\Logs\SmsLogsResponse;
 use Hollow3464\SmsApiHelper\Sms\Reports\SmsReportResponse;
@@ -34,18 +35,28 @@ class SmsApiHelper
 
     public function sendSms(SmsMessage $message): SendSmsResponse
     {
+        $request = $this->requests->createRequest(
+            'POST',
+            $this->uri
+                ->createUri($this->base_url)
+                ->withPath('/sms/1/text/single')
+        );
+
         $response =  $this->client->sendRequest(
-            $this->requests->createRequest(
-                'POST',
-                $this->uri
-                    ->createUri($this->base_url)
-                    ->withPath('/sms/1/text/single')
-            )
+            $request
             ->withHeader('Content-type', 'application/json')
             ->withHeader('Accept', 'application/json')
-            ->withHeader('Authentication', $this->auth_string)
+            ->withHeader('Authorization', $this->auth_string)
             ->withBody($this->streams->createStream(json_encode($message)))
         );
+
+        if ($response->getStatusCode() >= 400) {
+            throw new ClientException(
+                $response->getReasonPhrase(),
+                $request,
+                $response
+            );
+        }
 
         return unserialize($response->getBody(),
             ['allowed_classes' => [SendSmsResponse::class]]);
