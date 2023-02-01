@@ -9,18 +9,12 @@ final class SmsReportResponse
     ) {
     }
 
-    public function __serialize(): array
+    public static function fromJson(string $data): static
     {
-        return [
-            'reports' => serialize($this->reports)
-        ];
-    }
+        $data = json_decode($data, true);
 
-    public function __unserialize(array $data): void
-    {
-        $this->reports = unserialize(
-            $data['reports'],
-            ['allowed_classes' => [SentSmsReportsIterator::class]]
+        return new static(
+            SentSmsReportsIterator::fromArray($data['reports'])
         );
     }
 }

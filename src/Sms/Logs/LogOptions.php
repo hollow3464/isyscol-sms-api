@@ -18,7 +18,7 @@ final class LogOptions
     ) {
     }
 
-    public function __serialize()
+    public function __toString()
     {
         $options = array_filter((array) $this, 'strlen');
 

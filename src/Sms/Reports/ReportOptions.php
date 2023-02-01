@@ -11,7 +11,7 @@ final class ReportOptions
     ) {
     }
 
-    public function __serialize(): string
+    public function __toString(): string
     {
         $options = array_filter((array) $this, 'strlen');
 

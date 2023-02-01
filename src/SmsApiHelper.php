@@ -47,8 +47,7 @@ class SmsApiHelper
             ->withBody($this->streams->createStream(json_encode($message)))
         );
 
-        return unserialize($response->getBody()->getContents(),
-            ['allowed_classes' => [SendSmsResponse::class]]);
+        return SendSmsResponse::fromJson($response->getBody());
     }
 
     public function sendAdvancedSms(AdvancedSmsMessage $message): SendSmsResponse
@@ -66,8 +65,7 @@ class SmsApiHelper
             ->withBody($this->streams->createStream(json_encode($message)))
         );
 
-        return unserialize($response->getBody()->getContents(),
-            ['allowed_classes'=> [SendSmsResponse::class]]);
+        return SendSmsResponse::fromJson($response->getBody());
     }
 
     public function getDeliveryReports(ReportOptions $options): SmsReportResponse
@@ -78,14 +76,13 @@ class SmsApiHelper
                 $this->uri
                     ->createUri($this->base_url)
                     ->withPath('/sms/1/reports')
-                    ->withQuery(serialize($options))
+                    ->withQuery($options)
             )
             ->withHeader('Accept', 'application/json')
             ->withHeader('Authorization', $this->auth_string)
         );
 
-        return unserialize($response->getBody()->getContents(),
-            ['allowed_classes' => [SmsReportResponse::class]]);
+        return SmsReportResponse::fromJson($response->getBody());
     }
 
     public function getMessageLogs(LogOptions $options): SmsLogsResponse
@@ -96,13 +93,12 @@ class SmsApiHelper
                 $this->uri
                     ->createUri($this->base_url)
                     ->withPath('/sms/1/logs')
-                    ->withQuery(serialize($options))
+                    ->withQuery($options)
             )
             ->withHeader('Accept', 'application/json')
             ->withHeader('Authorization', $this->auth_string)
         );
 
-        return unserialize($response->getBody()->getContents(),
-            ['allowed_classes' => [SmsLogsResponse::class]]);
+        return SmsLogsResponse::fromJson($response->getBody());
     }
 }

@@ -47,14 +47,16 @@ final class SentSmsReportsIterator implements Iterator, JsonSerializable
         return $this->current_index >= 0;
     }
 
-    public function __serialize(): array
+    public function setDetails(array $details): static
     {
-        return $this->jsonSerialize();
+        $this->details = $details;
+
+        return $this;
     }
 
-    public function __unserialize(array $data): void
+    public static function fromArray(array $data): static
     {
-        $this->details = array_map(
+        return (new static())->setDetails(array_map(
             function ($d) {
                 $error = null;
 
@@ -92,7 +94,7 @@ final class SentSmsReportsIterator implements Iterator, JsonSerializable
                 );
             },
             $data
-        );
+        ));
     }
 
     public function jsonSerialize(): array

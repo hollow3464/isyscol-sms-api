@@ -50,9 +50,15 @@ final class SendSmsResponseDetailsIterator implements Iterator, JsonSerializable
         return $this->jsonSerialize();
     }
 
-    public function __unserialize(array $data): void
+    public function setDetails(array $data): static
     {
-        $this->details = array_map(
+        $this->details = $data;
+        return $this;
+    }
+
+    public static function fromArray(array $data): static
+    {
+        return (new static())->setDetails(array_map(
             fn ($d) => new SendSmsResponseDetail(
                 $d['to'],
                 new Status(
@@ -67,7 +73,7 @@ final class SendSmsResponseDetailsIterator implements Iterator, JsonSerializable
                 $d['messageId']
             ),
             $data
-        );
+        ));
     }
 
     public function jsonSerialize(): array
