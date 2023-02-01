@@ -2,7 +2,6 @@
 
 namespace Hollow3464\SmsApiHelper;
 
-use GuzzleHttp\Exception\ClientException;
 use Hollow3464\SmsApiHelper\Sms\Logs\LogOptions;
 use Hollow3464\SmsApiHelper\Sms\Logs\SmsLogsResponse;
 use Hollow3464\SmsApiHelper\Sms\Reports\SmsReportResponse;
@@ -35,30 +34,20 @@ class SmsApiHelper
 
     public function sendSms(SmsMessage $message): SendSmsResponse
     {
-        $request = $this->requests->createRequest(
-            'POST',
-            $this->uri
-                ->createUri($this->base_url)
-                ->withPath('/sms/1/text/single')
-        );
-
         $response =  $this->client->sendRequest(
-            $request
+            $this->requests->createRequest(
+                'POST',
+                $this->uri
+                    ->createUri($this->base_url)
+                    ->withPath('/sms/1/text/single')
+            )
             ->withHeader('Content-type', 'application/json')
             ->withHeader('Accept', 'application/json')
             ->withHeader('Authorization', $this->auth_string)
             ->withBody($this->streams->createStream(json_encode($message)))
         );
 
-        if ($response->getStatusCode() >= 400) {
-            throw new ClientException(
-                $response->getReasonPhrase(),
-                $request,
-                $response
-            );
-        }
-
-        return unserialize($response->getBody(),
+        return unserialize($response->getBody()->getContents(),
             ['allowed_classes' => [SendSmsResponse::class]]);
     }
 
@@ -77,7 +66,7 @@ class SmsApiHelper
             ->withBody($this->streams->createStream(json_encode($message)))
         );
 
-        return unserialize($response->getBody(),
+        return unserialize($response->getBody()->getContents(),
             ['allowed_classes'=> [SendSmsResponse::class]]);
     }
 
@@ -95,7 +84,7 @@ class SmsApiHelper
             ->withHeader('Authorization', $this->auth_string)
         );
 
-        return unserialize($response->getBody(),
+        return unserialize($response->getBody()->getContents(),
             ['allowed_classes' => [SmsReportResponse::class]]);
     }
 
@@ -113,7 +102,7 @@ class SmsApiHelper
             ->withHeader('Authorization', $this->auth_string)
         );
 
-        return unserialize($response->getBody(),
+        return unserialize($response->getBody()->getContents(),
             ['allowed_classes' => [SmsLogsResponse::class]]);
     }
 }
