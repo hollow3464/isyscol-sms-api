@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hollow3464\SmsApiHelper\Sms\Messages;
 
 use JsonSerializable;
+use Exception;
 
 final class SmsMessage implements JsonSerializable
 {
@@ -12,7 +15,7 @@ final class SmsMessage implements JsonSerializable
         public readonly ?string $from = null,
     ) {
         if (!count($this->to)) {
-            throw new \Exception("There must be at least one receipt");
+            throw new Exception("There must be at least one receipt");
         }
     }
 

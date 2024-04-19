@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hollow3464\SmsApiHelper\Sms\Reports;
 
 use Iterator;
@@ -8,51 +10,13 @@ use JsonSerializable;
 use Hollow3464\SmsApiHelper\Status;
 use Hollow3464\SmsApiHelper\Error;
 use Hollow3464\SmsApiHelper\Sms\Price;
+use Exception;
 
 /** @implements Iterator<int, SentSmsReport> */
 final class SentSmsReportsIterator implements Iterator, JsonSerializable
 {
     private int $current_index = 0;
     private array $details = [];
-
-    /**
-     * @throws \Exception
-     */
-    public function current(): SentSmsReport
-    {
-        if (!count($this->details)) {
-            throw new \Exception("There are no items", 1);
-        }
-
-        return $this->details[$this->current_index];
-    }
-
-    public function key()
-    {
-        return $this->current_index;
-    }
-
-    public function next(): void
-    {
-        $this->current_index =  $this->current_index + 1;
-    }
-
-    public function rewind(): void
-    {
-        $this->current_index = 0;
-    }
-
-    public function valid(): bool
-    {
-        return $this->current_index >= 0;
-    }
-
-    public function setDetails(array $details): static
-    {
-        $this->details = $details;
-
-        return $this;
-    }
 
     public static function fromArray(array $data): static
     {
@@ -95,6 +59,45 @@ final class SentSmsReportsIterator implements Iterator, JsonSerializable
             },
             $data
         ));
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function current(): SentSmsReport
+    {
+        if (!count($this->details)) {
+            throw new Exception("There are no items", 1);
+        }
+
+        return $this->details[$this->current_index];
+    }
+
+    public function key()
+    {
+        return $this->current_index;
+    }
+
+    public function next(): void
+    {
+        $this->current_index =  $this->current_index + 1;
+    }
+
+    public function rewind(): void
+    {
+        $this->current_index = 0;
+    }
+
+    public function valid(): bool
+    {
+        return $this->current_index >= 0;
+    }
+
+    public function setDetails(array $details): static
+    {
+        $this->details = $details;
+
+        return $this;
     }
 
     public function jsonSerialize(): array

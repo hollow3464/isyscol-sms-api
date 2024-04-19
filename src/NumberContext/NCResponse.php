@@ -1,12 +1,13 @@
 <?php
 
-namespace Hollow3464\SmsApiHelper\NumberContext;
-use Hollow3464\SmsApiHelper\NumberContext\NCReponseDetailsIterator;
+declare(strict_types=1);
 
-final class NCResponse {
+namespace Hollow3464\SmsApiHelper\NumberContext;
+
+final class NCResponse
+{
     public function __construct(
         public string $bulkId,
-        public NCReponseDetailsIterator $results, 
-    ){
-    }
+        public NCReponseDetailsIterator $results,
+    ) {}
 }

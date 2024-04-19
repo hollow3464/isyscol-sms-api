@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hollow3464\SmsApiHelper\NumberContext;
 
 use Hollow3464\SmsApiHelper\Error;
@@ -19,6 +21,5 @@ final class NCResponseDetails
         public readonly string $servingMSC,
         public readonly Status $status,
         public readonly Error $error
-    ) {
-    }
+    ) {}
 }

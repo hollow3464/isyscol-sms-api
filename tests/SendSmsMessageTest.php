@@ -1,28 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
 use Hollow3464\SmsApiHelper\Sms\Messages\SmsMessage;
 use Hollow3464\SmsApiHelper\SmsApiHelper;
 
-Dotenv\Dotenv::createImmutable(__DIR__ . '/..')->load();
+describe('sms helper', function () {
+    $factory = new HttpFactory();
 
-$factory = new HttpFactory();
+    $helper = new SmsApiHelper(
+        new Client(),
+        $factory,
+        $factory,
+        $factory,
+        $_ENV['SMS_URL'],
+        $_ENV['SMS_USER'],
+        $_ENV['SMS_PASS']
+    );
 
-$helper = new SmsApiHelper(
-    new Client(),
-    $factory,
-    $factory,
-    $factory,
-    $_ENV['SMS_URL'],
-    $_ENV['SMS_USER'],
-    $_ENV['SMS_PASS']
-);
-
-test('send sms message', function () use ($helper) {
-    expect($helper->sendSms(
-        new SmsMessage(
-            [$_ENV['TEST_PHONE']],
-            'TEST MESSAGE'
-        )
-    ))->toBeObject();
+    it('sends sms messages', function () use ($helper) {
+        expect($helper->sendSms(
+            new SmsMessage([$_ENV['TEST_PHONE']], 'TEST MESSAGE')
+        ))->toBeObject();
+    });
 });

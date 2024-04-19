@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hollow3464\SmsApiHelper\Sms\Logs;
 
 final class LogOptions
@@ -15,15 +17,14 @@ final class LogOptions
         public readonly int $limit,
         public readonly string $mcc,
         public readonly string $mnc,
-    ) {
-    }
+    ) {}
 
     public function __toString()
     {
         $options = array_filter((array) $this, 'strlen');
 
         return join('&', array_map(
-            fn ($k, $v) => "$k=$v",
+            fn($k, $v) => "$k=$v",
             array_keys($options),
             array_values($options),
         ));

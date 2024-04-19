@@ -1,6 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hollow3464\SmsApiHelper\Sms\Logs;
+
 use Hollow3464\SmsApiHelper\Status;
 use Hollow3464\SmsApiHelper\Error;
 use Hollow3464\SmsApiHelper\Sms\Price;
@@ -21,6 +24,5 @@ final class SentSmsLog
         public readonly ?Price $price = null,
         public readonly ?Status $status = null,
         public readonly ?Error $error = null
-    ){
-    }
+    ) {}
 }

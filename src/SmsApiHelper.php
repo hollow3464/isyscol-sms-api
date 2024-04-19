@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hollow3464\SmsApiHelper;
 
 use Hollow3464\SmsApiHelper\Sms\Logs\LogOptions;
@@ -15,7 +17,7 @@ use Hollow3464\SmsApiHelper\Sms\Reports\ReportOptions;
 use Hollow3464\SmsApiHelper\Sms\Messages\SmsMessage;
 use Hollow3464\SmsApiHelper\Sms\Messages\AdvancedSmsMessage;
 
-class SmsApiHelper
+final class SmsApiHelper
 {
     private readonly string $auth_string;
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Hollow3464\SmsApiHelper\Sms\Reports;
 
 final class ReportOptions
@@ -8,15 +10,14 @@ final class ReportOptions
         public readonly string $bulkId,
         public readonly string $messageId,
         public readonly string $limit,
-    ) {
-    }
+    ) {}
 
     public function __toString(): string
     {
         $options = array_filter((array) $this, 'strlen');
 
         return join('&', array_map(
-            fn ($k, $v) => "$k=$v",
+            fn($k, $v) => "$k=$v",
             array_keys($options),
             array_values($options),
         ));
