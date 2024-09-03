@@ -17,12 +17,12 @@ describe('sms helper', function () {
         $factory,
         $_ENV['SMS_URL'],
         $_ENV['SMS_USER'],
-        $_ENV['SMS_PASS']
+        $_ENV['SMS_PASS'],
     );
 
     it('sends sms messages', function () use ($helper) {
         expect($helper->sendSms(
-            new SmsMessage([$_ENV['TEST_PHONE']], 'TEST MESSAGE')
+            new SmsMessage([$_ENV['TEST_PHONE']], 'TEST MESSAGE'),
         ))->toBeObject();
     });
 });

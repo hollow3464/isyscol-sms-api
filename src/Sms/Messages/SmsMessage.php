@@ -23,7 +23,7 @@ final class SmsMessage implements JsonSerializable
     {
         $data = [
             'to' => $this->to,
-            'text' => $this->text
+            'text' => $this->text,
         ];
 
         if ($this->from) {

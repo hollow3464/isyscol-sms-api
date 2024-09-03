@@ -20,6 +20,6 @@ final class NCResponseDetails
         public readonly Network $roamingNetwork,
         public readonly string $servingMSC,
         public readonly Status $status,
-        public readonly Error $error
+        public readonly Error $error,
     ) {}
 }

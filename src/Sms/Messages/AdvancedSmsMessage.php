@@ -28,7 +28,7 @@ final class AdvancedSmsMessage implements JsonSerializable
         $data = [
             'to' => $this->to,
             'flash' => $this->flash,
-            'transliteration' => $this->transliteration->value
+            'transliteration' => $this->transliteration->value,
         ];
 
         if ($this->text) {

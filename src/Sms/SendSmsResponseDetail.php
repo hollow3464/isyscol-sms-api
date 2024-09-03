@@ -12,6 +12,6 @@ final class SendSmsResponseDetail
         public readonly string $to,
         public readonly Status $status,
         public readonly int $smsCount,
-        public readonly string $messageId
+        public readonly string $messageId,
     ) {}
 }

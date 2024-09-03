@@ -8,6 +8,6 @@ final class Price
 {
     public function __construct(
         public readonly float $pricePerMessage,
-        public readonly string $currency
+        public readonly string $currency,
     ) {}
 }

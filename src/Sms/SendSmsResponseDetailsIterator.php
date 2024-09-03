@@ -6,7 +6,6 @@ namespace Hollow3464\SmsApiHelper\Sms;
 
 use Iterator;
 use JsonSerializable;
-
 use Hollow3464\SmsApiHelper\Status;
 use Exception;
 
@@ -32,12 +31,12 @@ final class SendSmsResponseDetailsIterator implements Iterator, JsonSerializable
                     (int) $d['status']['id'],
                     $d['status']['name'],
                     $d['status']['description'],
-                    $d['status']['action'] ?? ''
+                    $d['status']['action'] ?? '',
                 ),
                 (int) $d['smsCount'],
-                $d['messageId']
+                $d['messageId'],
             ),
-            $data
+            $data,
         ));
     }
 

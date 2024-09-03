@@ -6,7 +6,6 @@ namespace Hollow3464\SmsApiHelper\NumberContext;
 
 use Iterator;
 use JsonSerializable;
-
 use Hollow3464\SmsApiHelper\Status;
 use Hollow3464\SmsApiHelper\Error;
 use Exception;
@@ -56,7 +55,7 @@ final class NCReponseDetailsIterator implements Iterator, JsonSerializable
                     (int) $d['status']['id'],
                     $d['status']['name'],
                     $d['status']['description'],
-                    $d['status']['action'] ?? ''
+                    $d['status']['action'] ?? '',
                 ),
                 new Error(
                     (int) $d['status']['groupId'],
@@ -64,10 +63,10 @@ final class NCReponseDetailsIterator implements Iterator, JsonSerializable
                     (int) $d['status']['id'],
                     $d['status']['name'],
                     $d['status']['description'],
-                    $d['status']['action'] ?? ''
-                )
+                    $d['status']['action'] ?? '',
+                ),
             ),
-            $data
+            $data,
         ));
     }
 

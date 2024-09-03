@@ -23,6 +23,6 @@ final class SentSmsLog
         public readonly string $callbackData,
         public readonly ?Price $price = null,
         public readonly ?Status $status = null,
-        public readonly ?Error $error = null
+        public readonly ?Error $error = null,
     ) {}
 }

@@ -12,7 +12,6 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
-
 use Hollow3464\SmsApiHelper\Sms\Reports\ReportOptions;
 use Hollow3464\SmsApiHelper\Sms\Messages\SmsMessage;
 use Hollow3464\SmsApiHelper\Sms\Messages\AdvancedSmsMessage;
@@ -41,15 +40,15 @@ final class SmsApiHelper
                 'POST',
                 $this->uri
                     ->createUri($this->base_url)
-                    ->withPath('/sms/1/text/single')
+                    ->withPath('/sms/1/text/single'),
             )
             ->withHeader('Content-type', 'application/json')
             ->withHeader('Accept', 'application/json')
             ->withHeader('Authorization', $this->auth_string)
-            ->withBody($this->streams->createStream(json_encode($message)))
+            ->withBody($this->streams->createStream((string) json_encode($message))),
         );
 
-        return SendSmsResponse::fromJson($response->getBody());
+        return SendSmsResponse::fromJson($response->getBody()->getContents());
     }
 
     public function sendAdvancedSms(AdvancedSmsMessage $message): SendSmsResponse
@@ -59,15 +58,15 @@ final class SmsApiHelper
                 'POST',
                 $this->uri
                     ->createUri($this->base_url)
-                    ->withPath('/sms/1/text/advanced')
+                    ->withPath('/sms/1/text/advanced'),
             )
             ->withHeader('Content-type', 'application/json')
             ->withHeader('Accept', 'application/json')
             ->withHeader('Authorization', $this->auth_string)
-            ->withBody($this->streams->createStream(json_encode($message)))
+            ->withBody($this->streams->createStream((string) json_encode($message))),
         );
 
-        return SendSmsResponse::fromJson($response->getBody());
+        return SendSmsResponse::fromJson($response->getBody()->getContents());
     }
 
     public function getDeliveryReports(ReportOptions $options): SmsReportResponse
@@ -78,13 +77,13 @@ final class SmsApiHelper
                 $this->uri
                     ->createUri($this->base_url)
                     ->withPath('/sms/1/reports')
-                    ->withQuery($options)
+                    ->withQuery((string) $options),
             )
             ->withHeader('Accept', 'application/json')
-            ->withHeader('Authorization', $this->auth_string)
+            ->withHeader('Authorization', $this->auth_string),
         );
 
-        return SmsReportResponse::fromJson($response->getBody());
+        return SmsReportResponse::fromJson($response->getBody()->getContents());
     }
 
     public function getMessageLogs(LogOptions $options): SmsLogsResponse
@@ -95,12 +94,12 @@ final class SmsApiHelper
                 $this->uri
                     ->createUri($this->base_url)
                     ->withPath('/sms/1/logs')
-                    ->withQuery($options)
+                    ->withQuery((string) $options),
             )
             ->withHeader('Accept', 'application/json')
-            ->withHeader('Authorization', $this->auth_string)
+            ->withHeader('Authorization', $this->auth_string),
         );
 
-        return SmsLogsResponse::fromJson($response->getBody());
+        return SmsLogsResponse::fromJson($response->getBody()->getContents());
     }
 }

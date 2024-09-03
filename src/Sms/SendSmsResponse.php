@@ -8,7 +8,7 @@ final class SendSmsResponse
 {
     public function __construct(
         public readonly ?string $bulkId,
-        public readonly SendSmsResponseDetailsIterator $messages
+        public readonly SendSmsResponseDetailsIterator $messages,
     ) {}
 
     public static function fromJson(string $data): static
@@ -17,7 +17,7 @@ final class SendSmsResponse
 
         return new SendSmsResponse(
             $data['bulkId'] ?? '',
-            SendSmsResponseDetailsIterator::fromArray($data['messages'])
+            SendSmsResponseDetailsIterator::fromArray($data['messages']),
         );
     }
 }
