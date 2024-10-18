@@ -7,11 +7,11 @@ namespace Hollow3464\SmsApiHelper;
 final class Status
 {
     public function __construct(
-        public readonly int $groupId,
-        public readonly string $groupName,
-        public readonly int $id,
-        public readonly string $name,
-        public readonly string $description,
-        public readonly string $action,
+        public readonly ?int $id = null,
+        public readonly ?int $groupId = null,
+        public readonly ?string $groupName = null,
+        public readonly ?string $name = null,
+        public readonly ?string $description = null,
+        public readonly ?string $action = null,
     ) {}
 }

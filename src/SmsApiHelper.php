@@ -4,102 +4,65 @@ declare(strict_types=1);
 
 namespace Hollow3464\SmsApiHelper;
 
-use Hollow3464\SmsApiHelper\Sms\Logs\LogOptions;
-use Hollow3464\SmsApiHelper\Sms\Logs\SmsLogsResponse;
-use Hollow3464\SmsApiHelper\Sms\Reports\SmsReportResponse;
-use Hollow3464\SmsApiHelper\Sms\SendSmsResponse;
+use CuyZ\Valinor\Mapper\MappingError;
+use CuyZ\Valinor\Mapper\Source\Source;
+use CuyZ\Valinor\Mapper\TreeMapper;
+use CuyZ\Valinor\MapperBuilder;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
-use Hollow3464\SmsApiHelper\Sms\Reports\ReportOptions;
-use Hollow3464\SmsApiHelper\Sms\Messages\SmsMessage;
-use Hollow3464\SmsApiHelper\Sms\Messages\AdvancedSmsMessage;
 
 final class SmsApiHelper
 {
-    private readonly string $auth_string;
+    private const BASE_URL = 'http://api.messaging-service.com';
+
+    private readonly string $authString;
+    private readonly TreeMapper $mapper;
 
     public function __construct(
         private readonly ClientInterface $client,
         private readonly RequestFactoryInterface $requests,
         private readonly UriFactoryInterface $uri,
         private readonly StreamFactoryInterface $streams,
-        private readonly string $base_url,
         string $username,
         string $password,
+        ?TreeMapper $mapper = null,
     ) {
-        $this->auth_string = "Basic " . base64_encode("$username:$password");
+        $this->authString = "Basic " . base64_encode("$username:$password");
+
+        if (is_null($mapper)) {
+            $this->mapper = (new MapperBuilder())
+                ->enableFlexibleCasting()
+                ->allowSuperfluousKeys()
+                ->supportDateFormats('Y-m-d H:i:s', 'Y-m-d H:i', 'Y-m-d')
+                ->mapper();
+        } else {
+            $this->mapper = $mapper;
+        }
     }
 
-
+    /**
+     * @throws MappingError
+     */
     public function sendSms(SmsMessage $message): SendSmsResponse
     {
         $response =  $this->client->sendRequest(
             $this->requests->createRequest(
                 'POST',
                 $this->uri
-                    ->createUri($this->base_url)
+                    ->createUri(self::BASE_URL)
                     ->withPath('/sms/1/text/single'),
             )
-            ->withHeader('Content-type', 'application/json')
-            ->withHeader('Accept', 'application/json')
-            ->withHeader('Authorization', $this->auth_string)
-            ->withBody($this->streams->createStream((string) json_encode($message))),
+                ->withHeader('Content-type', 'application/json')
+                ->withHeader('Accept', 'application/json')
+                ->withHeader('Authorization', $this->authString)
+                ->withBody($this->streams->createStream((string) json_encode($message))),
         );
 
-        return SendSmsResponse::fromJson($response->getBody()->getContents());
-    }
-
-    public function sendAdvancedSms(AdvancedSmsMessage $message): SendSmsResponse
-    {
-        $response = $this->client->sendRequest(
-            $this->requests->createRequest(
-                'POST',
-                $this->uri
-                    ->createUri($this->base_url)
-                    ->withPath('/sms/1/text/advanced'),
-            )
-            ->withHeader('Content-type', 'application/json')
-            ->withHeader('Accept', 'application/json')
-            ->withHeader('Authorization', $this->auth_string)
-            ->withBody($this->streams->createStream((string) json_encode($message))),
+        return $this->mapper->map(
+            SendSmsResponse::class,
+            Source::json((string) $response->getBody()),
         );
-
-        return SendSmsResponse::fromJson($response->getBody()->getContents());
-    }
-
-    public function getDeliveryReports(ReportOptions $options): SmsReportResponse
-    {
-        $response = $this->client->sendRequest(
-            $this->requests->createRequest(
-                'GET',
-                $this->uri
-                    ->createUri($this->base_url)
-                    ->withPath('/sms/1/reports')
-                    ->withQuery((string) $options),
-            )
-            ->withHeader('Accept', 'application/json')
-            ->withHeader('Authorization', $this->auth_string),
-        );
-
-        return SmsReportResponse::fromJson($response->getBody()->getContents());
-    }
-
-    public function getMessageLogs(LogOptions $options): SmsLogsResponse
-    {
-        $response =  $this->client->sendRequest(
-            $this->requests->createRequest(
-                'GET',
-                $this->uri
-                    ->createUri($this->base_url)
-                    ->withPath('/sms/1/logs')
-                    ->withQuery((string) $options),
-            )
-            ->withHeader('Accept', 'application/json')
-            ->withHeader('Authorization', $this->auth_string),
-        );
-
-        return SmsLogsResponse::fromJson($response->getBody()->getContents());
     }
 }

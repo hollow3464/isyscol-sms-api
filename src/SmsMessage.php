@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Hollow3464\SmsApiHelper\Sms\Messages;
+namespace Hollow3464\SmsApiHelper;
 
 use JsonSerializable;
 use Exception;
 
 final class SmsMessage implements JsonSerializable
 {
+    /**
+     * @param array<string> $to
+     */
     public function __construct(
         public readonly array $to,
         public readonly string $text,
@@ -19,7 +22,10 @@ final class SmsMessage implements JsonSerializable
         }
     }
 
-    public function jsonSerialize()
+    /**
+     * @return array{to: array<string>, text: string, from?: string}
+     */
+    public function jsonSerialize(): array
     {
         $data = [
             'to' => $this->to,

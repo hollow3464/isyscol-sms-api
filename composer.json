@@ -2,7 +2,7 @@
     "name": "hollow3464/isyscol-sms-api",
     "description": "SMS Api Helper",
     "type": "library",
-    "version": "1.0.2",
+    "version": "2.0.0",
     "autoload": {
         "psr-4": {
             "Hollow3464\\SmsApiHelper\\": "src/"
@@ -26,6 +26,7 @@
         "sort-packages": true
     },
     "require": {
+        "cuyz/valinor": "^1.13",
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "psr/http-message": "^1.0 || ^2.0"
