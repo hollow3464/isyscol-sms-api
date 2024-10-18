@@ -2,7 +2,7 @@
     "name": "hollow3464/isyscol-sms-api",
     "description": "SMS Api Helper",
     "type": "library",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "autoload": {
         "psr-4": {
             "Hollow3464\\SmsApiHelper\\": "src/"
@@ -28,7 +28,7 @@
     "require": {
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
-        "psr/http-message": "^1.0"
+        "psr/http-message": "^1.0 || ^2.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.14",
