@@ -9,6 +9,9 @@ use Exception;
 
 final class SmsMessage implements JsonSerializable
 {
+    /**
+    * @param string[] $to
+    */
     public function __construct(
         public readonly array $to,
         public readonly string $text,
@@ -19,7 +22,7 @@ final class SmsMessage implements JsonSerializable
         }
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         $data = [
             'to' => $this->to,

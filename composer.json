@@ -2,7 +2,7 @@
     "name": "hollow3464/isyscol-sms-api",
     "description": "SMS Api Helper",
     "type": "library",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "autoload": {
         "psr-4": {
             "Hollow3464\\SmsApiHelper\\": "src/"
