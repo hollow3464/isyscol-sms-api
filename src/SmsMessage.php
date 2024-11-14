@@ -22,10 +22,7 @@ final class SmsMessage implements JsonSerializable
         }
     }
 
-    /**
-     * @return array{to: array<string>, text: string, from?: string}
-     */
-    public function jsonSerialize(): array
+    public function jsonSerialize(): mixed
     {
         $data = [
             'to' => $this->to,
